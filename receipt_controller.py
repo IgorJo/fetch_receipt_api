@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-from api.receipt import Receipt
-from api.receipt_processor import ReceiptProcessor
+from models.receipt import Receipt
+from receipt_points.receipt_processor import ReceiptProcessor
 
 app = Flask(__name__)
 
@@ -9,19 +9,18 @@ def process_receipt():
   try:
     data = request.get_json()
     receipt = Receipt(data)
-    processor = ReceiptProcessor()
-    processor.calculate_points(receipt)
+    ReceiptProcessor().calculate_points(receipt)
     receipts[receipt.id] = receipt
-    return jsonify({"id": receipt.id}), 201
+    return jsonify({"id": receipt.id}), 200
   except Exception as e:
-    return jsonify({"error": str(e)}), 400
+    return jsonify({"error": "The receipt is invalid"}), 400
 
 @app.route("/receipts/<receipt_id>/points", methods=["GET"])
 def get_points(receipt_id):
   if receipt_id in receipts:
-    return jsonify({"points": receipts[receipt_id].points})
+    return jsonify({"points": receipts[receipt_id].points}), 200
 
-  return jsonify({"error": "Receipt id not found"}), 404
+  return jsonify({"error": "No receipt found for that id"}), 404
 
 receipts = {}
 

@@ -1,6 +1,6 @@
 import unittest
-from api.receipt_processor import ReceiptProcessor
-from api.receipt import Receipt
+from receipt_points.receipt_processor import ReceiptProcessor
+from models.receipt import Receipt
 
 class ReceiptProcessorTest(unittest.TestCase):
     def test_calculate_points(self):

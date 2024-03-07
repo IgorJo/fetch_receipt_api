@@ -1,5 +1,8 @@
 import uuid
 
+from .receipt_item import ReceiptItem
+from datetime import datetime
+
 class Receipt:
   def __init__(self, data):
     # Validate data
@@ -10,13 +13,17 @@ class Receipt:
 
     # Set provided values
     self.retailer = data['retailer']
-    self.purchase_date = data['purchaseDate']
-    self.purchase_time = data['purchaseTime']
-    self.items = data['items']
-    self.total = data['total']
+    dt = datetime.strptime(data['purchaseDate'], "%Y-%m-%d")
+    tm = datetime.strptime(data['purchaseTime'], "%H:%M").time()
+    self.purchase_datetime = datetime.combine(dt, tm)
+    self.items = []
+    for item_data in data['items']:
+      item = ReceiptItem(item_data)
+      self.items.append(item)
+    self.total = float(data['total'])
 
-    # Instantiate points
-    self.points = None
+    # Instantiate points data
+    self.points = 0
     self.points_breakdown = []
 
   def validate_receipt_data(self, data):
