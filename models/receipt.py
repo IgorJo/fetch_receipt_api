@@ -1,6 +1,6 @@
 import uuid
 
-from .receipt_item import ReceiptItem
+from models.receipt_item import ReceiptItem
 from datetime import datetime
 
 class Receipt:

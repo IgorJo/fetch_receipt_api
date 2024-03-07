@@ -1,4 +1,5 @@
 import unittest
+
 from receipt_points.receipt_processor import ReceiptProcessor
 from models.receipt import Receipt
 

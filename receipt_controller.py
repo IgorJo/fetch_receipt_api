@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+
 from models.receipt import Receipt
 from receipt_points.receipt_processor import ReceiptProcessor
 
